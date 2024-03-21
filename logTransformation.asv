@@ -1,0 +1,7 @@
+clc;
+clear all;
+close all;
+
+img = imread('Image/Birds.jpg');
+logimg = log(1+img(:,:);
+imshow(logimg)

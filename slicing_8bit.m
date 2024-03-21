@@ -11,8 +11,7 @@ I = img;
 gimg = 0.3 * I(:,:,1) + 0.59 * I(:,:,2) + 0.11 * I(:,:,3);
 figure(1)
 imshow(gimg)
-m = size(gimg, 1);
-n = size(gimg, 2);
+[m, n] = size(gimg);
 bits = 8;
 plane = zeros(m, n, bits);
 
