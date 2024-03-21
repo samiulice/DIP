@@ -3,7 +3,7 @@ clc;
 clear all;
 close all
 n = 8;
-m = 20
+m = 20;
 black = zeros(n,n);
 white = zeros(n,n);
 white(:,:) = 255;
