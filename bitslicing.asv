@@ -1,0 +1,16 @@
+clc;
+clear all;
+close all;
+
+%%Read image
+%img = imread('Image/Birds.jpg');
+img = imread('Image/Birds.jpg');
+bits = 8;
+for i = 1 : bits
+  b = mod(img, 2);
+  img = img/2;
+  figure(i+2)
+  imshow(b); 
+end
+
+
