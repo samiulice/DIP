@@ -20,9 +20,9 @@ new_height = floor(height*z);
 %% Pixel Replication of the image
 for i = 1:new_width
     for j = 1:new_height
-        new_image(i, j, :) = img(ceil(i/z), ceil(j/z), :);
+        new_img(i, j, :) = img(ceil(i/z), ceil(j/z), :);
     end
 end
 figure(2)
-imshow(new_image)
+imshow(new_img)
 title(sprintf('Zooming factor %g', z))
