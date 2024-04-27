@@ -3,7 +3,7 @@ clear all;
 close all;
 
 %% Original Image
-I = imread('Image/Forest_1.jpg');
+I = imread('Image/Birds.jpg');
 img = im2double(I);
 
 figure('name','Image Conversion: RGB To Gray Scale')

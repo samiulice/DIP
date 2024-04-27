@@ -16,6 +16,6 @@ for i = 1 : bits
   img = floor(img/2); 
   figure(i+1)
   imshow(b)
-  title(sprintf('Bit Plane: %d', i))
+  title(sprintf('Bit Plane: %g', i))
 end
 

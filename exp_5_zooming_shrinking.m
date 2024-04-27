@@ -11,11 +11,11 @@ title('Original Image')
 
 %% Zooming Factor
 % z > 1 for zooming and z < 1 shrink
-z = 2;
+z = 0.5;
 %% Dimension of the image
 [width, height, p] = size(img);
-new_width = ceil(width*z);
-new_height = ceil(height*z);
+new_width = floor(width*z);
+new_height = floor(height*z);
 %% Pixel Replication of the image
 for i = 1:new_width
     for j = 1:new_height
@@ -24,4 +24,4 @@ for i = 1:new_width
 end
 figure(2)
 imshow(new_image)
-title('Zooming factor %d', z)
+title(sprintf('Zooming factor %g', z))

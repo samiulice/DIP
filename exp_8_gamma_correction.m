@@ -16,7 +16,7 @@ gamma = 0.5;
 logimg = c*img.^gamma;
 figure('name','Effect of gamma correction(\gamma <1)')
 imshow(logimg)
-title(['\gamma = ', sprintf('%.2f', gamma)])
+title(['\gamma = ', sprintf('%g', gamma)])
 
 %% log Transformation(gamma > 1)
 c = 1;
