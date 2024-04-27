@@ -9,13 +9,13 @@ imshow(original_image)
 title('Original Image')
 
 %% 8-bit plane slicing of the image
-img = double(original_image);
+img = double(imresize(original_image,[10,10]));
 bits = 8;
 for i = 1 : bits
   b = mod(img, 2);
   img = floor(img/2); 
-  figure(i+1)
-  imshow(b)
-  title(sprintf('Bit Plane: %d', i))
+  figure(i)
+  imshow(a)
+  title(sprintf('Bit Plane: %d', i+1))
 end
 
