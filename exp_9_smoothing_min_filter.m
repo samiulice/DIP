@@ -2,6 +2,11 @@ clc;
 clear all;
 close all;
 
+%% Min Filter:
+%replace the value of each pixel with the minimum value from its surrounding neighborhood.
+%Effect: It darkens the image by making pixels take on the value of the darkest pixel in their neighborhood.
+%Removing white noise: Effective in removing salt noise (white spots) from an image because it eliminates the bright pixels.
+
 %% Read Original Image
 img =imread('Image/birds.jpg');
 [rows,cols, n] = size(img); %Get the dimension of the image
@@ -62,6 +67,6 @@ imshow(uint8(only_salt_noise))
 title('Noisy image: Pepper Noise')
 figure(3)
 imshow(uint8(min_img))
-title('After Applying Max Filter')
+title('After Applying Min Filter')
 
 

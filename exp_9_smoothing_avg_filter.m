@@ -1,6 +1,18 @@
 clc;
 clear all;
 close all;
+%% Smoothing an image refers to the process of reducing noise 
+% and removing fine details or high-frequency components
+
+%% Median Filter:
+ %replaces each pixel's value with the median value of its surrounding neighborhood.
+ %removes Salt-and-pepper noise while preserving edges
+ 
+ %% Average (Mean) Filter:
+ %replaces the pixel value with the average value of its surrounding neighborhood.
+ %It smooths the image by averaging out variations, but it can blur edges.
+ %It can help reduce Gaussian noise and smooth random pixel variations.
+%Useful for applications where texture smoothing or reducing detail is needed.
 
 %% Read Original Image
 img =imread('Image/birds.jpg');

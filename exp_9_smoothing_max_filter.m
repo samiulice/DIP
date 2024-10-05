@@ -2,6 +2,12 @@ clc;
 clear all;
 close all;
 
+%% Max Filter:
+%replaces each pixel with the maximum value from its surrounding neighborhood.
+%Effect: It brightens the image by making pixels take on the value of the brightest pixel in their neighborhood.
+% Effective for removing pepper noise (black spots) from an image because it eliminates the dark pixels.
+%Useful for enhancing bright spots in images, such as stars in astronomical images or features in microscopic images.
+
 %% Read Original Image
 img =imread('Image/birds.jpg');
 [rows,cols, n] = size(img); %Get the dimension of the image
