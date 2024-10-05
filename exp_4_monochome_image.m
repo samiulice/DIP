@@ -7,16 +7,9 @@ img = imread('Image/Birds.jpg');
 
 %% Image Conversion: RGB to Gray
 gray = 0.3 * img(:,:,1) + 0.59 * img(:,:,2) + 0.11 * img(:,:,3);
-[m,n] = size(gray);
-mono = zeros(m,n);
-for i = 1:m
-    for j = 1 : n
-        if gray(i,j) > 127
-            mono(i,j) = 255; %Monochrome Image
-            %mono(i,j) = 1; %Binary Image
-        end
-    end
-end
+
+threshold = 128;
+mono = gray > threshold;
 
 %% Show Images
 figure('name', 'Image Conversion: Gray Scale To Monochrome ')

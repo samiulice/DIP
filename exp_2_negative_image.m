@@ -6,6 +6,7 @@ img = imread('Image/Birds.jpg');
 neg = 255-img;
 
 %% Show Images
+figure('name', 'Negetive of an image');
 subplot(1,2,1)
 imshow(img)
 title('original')
