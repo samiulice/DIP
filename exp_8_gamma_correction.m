@@ -16,7 +16,7 @@ gray_img = double(gray_img) / 255;
 %Define C (c is a scaling factor that can adjust the overall intensity of the output image)
 c = 1;
 % Define the gamma value (choose less than 1 for brightening, greater than 1 for darkening)
-gamma = 0.5;  % Example: Gamma < 1 brightens the image, Gamma > 1 darkens the image
+gamma = 2;  % Example: Gamma < 1 brightens the image, Gamma > 1 darkens the image
 
 % Apply gamma correction
 gamma_corrected_img = c*gray_img .^ gamma;  % Element-wise exponentiation

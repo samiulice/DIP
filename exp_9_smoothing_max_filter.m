@@ -20,7 +20,7 @@ end
 %% Adding salt & pepper Noise
 noise_img = imnoise(img,'salt & pepper',0.01);
 only_pepper_noise = noise_img;
-only_pepper_noise(noise_img == 255) = img(noise_img == 255);
+% only_pepper_noise(noise_img == 255) = img(noise_img == 255);
 
 %Define Filter
 filter_size = 3;

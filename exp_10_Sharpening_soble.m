@@ -1,4 +1,4 @@
-% 10. Write a program to detect Line/Edge/Boundary in an image by Prewitt filter.
+% 10. Write a program to detect Line/Edge/Boundary in an image by Sobel filter.
 close all ;
 clear ;
 clc ;
@@ -13,27 +13,27 @@ else
     img = x;
 end 
 
-% Define Prewitt filter kernels
-prewitt_kernel_x = [-1 0 1; -1 0 1; -1 0 1];
-prewitt_kernel_y = [-1 -1 -1; 0 0 0; 1 1 1];
+% Define Sobel filter kernels
+sobel_kernel_x = [-1 0 1; -2 0 2; -1 0 1];
+sobel_kernel_y = [-1 -2 -1; 0 0 0; 1 2 1];
 
 % Add padding to the input image
 p = 1;
 padded_img = zeros(rows+2*p, cols+2*p);
 
 %Copy original image to the center of the padded image
-padded_img(p+1:end-p,p+1:end-p) = gray_img(:,:);
+padded_img(p+1:end-p,p+1:end-p) = img(:,:);
 %Replicate border pixels
 for x = 1:p
-    padded_img(x, p+1:end-p) = gray_img(1,:); %Top row
-    padded_img(p+1:end-p, x) = gray_img(:,1); %Left column
-    padded_img(end-p+x:end, p+1:end-p) = gray_img(end,:); %Bottom row
-    padded_img(p+1:end-p, end-p+x:end) = gray_img(:,end);%Right column
+    padded_img(x, p+1:end-p) = img(1,:); %Top row
+    padded_img(p+1:end-p, x) = img(:,1); %Left column
+    padded_img(end-p+x:end, p+1:end-p) = img(end,:); %Bottom row
+    padded_img(p+1:end-p, end-p+x:end) = img(:,end);%Right column
 end
-padded_img(1:p, 1:p) = gray_img(1,1);
-padded_img(1:p, end-p+1:end) = gray_img(1,end);
-padded_img(end-p+1:end, 1:p) = gray_img(end,1);
-padded_img(end-p+1:end, end-p+1:end) = gray_img(end,end);
+padded_img(1:p, 1:p) = img(1,1);
+padded_img(1:p, end-p+1:end) = img(1,end);
+padded_img(end-p+1:end, 1:p) = img(end,1);
+padded_img(end-p+1:end, end-p+1:end) = img(end,end);
 % Create output image
 
 % Create output image
@@ -52,7 +52,7 @@ for i = 1:rows
         for x = 1:3
             temp = 0;
             for y = 1:3
-                temp = temp + local_neighborhood(x,y)*prewitt_kernel_x(x,y);
+                temp = temp + local_neighborhood(x,y)*sobel_kernel_x(x,y);
             end
             filtered_pixel_x = filtered_pixel_x + temp;
         end
@@ -61,7 +61,7 @@ for i = 1:rows
         for x = 1:3
             temp = 0;
             for y = 1:3
-                temp = temp + local_neighborhood(x,y)*prewitt_kernel_y(x,y);
+                temp = temp + local_neighborhood(x,y)*sobel_kernel_y(x,y);
             end
             filtered_pixel_y = filtered_pixel_y + temp;
         end
@@ -70,7 +70,7 @@ for i = 1:rows
         gradient_magnitude = sqrt(filtered_pixel_x^2 + filtered_pixel_y^2);
         
         % Assign gradient magnitude to output image
-        output_img(i,j) = gradient_magnitude;
+        output_img(i,j) = img(i,j) + gradient_magnitude;
     end
 end
 
@@ -80,5 +80,5 @@ imshow(img);
 title('Original Image');
 
 subplot(1,2,2);
-imshow(output_img,[]);
+imshow(uint8(output_img));
 title('Sharpened Image');
