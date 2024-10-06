@@ -18,31 +18,34 @@ end
 % Define Laplacian filter kernel
 laplacian_filter = [0 -1 0; -1 4 -1; 0 -1 0];
 
-% Add padding to the input image
+%% Padding
 p = 1;
-padded_img = zeros(rows+2*p, cols+2*p);
+% Initialize the padded image with zeros
+padded_img = zeros(rows+p*2, cols+p*2);
 
-%Copy original image to the center of the padded image
-padded_img(p+1:end-p,p+1:end-p) = img(:,:);
-%Replicate border pixels
-for x = 1:p
-    padded_img(x, p+1:end-p) = img(1,:); %Top row
-    padded_img(p+1:end-p, x) = img(:,1); %Left column
-    padded_img(end-p+x:end, p+1:end-p) = img(end,:); %Bottom row
-    padded_img(p+1:end-p, end-p+x:end) = img(:,end);%Right column
-end
-padded_img(1:p, 1:p) = img(1,1);
-padded_img(1:p, end-p+1:end) = img(1,end);
-padded_img(end-p+1:end, 1:p) = img(end,1);
-padded_img(end-p+1:end, end-p+1:end) = img(end,end);
+padded_img(p+1:end-p, p+1:end-p) = img(:, :);
+
+padded_img(1:p, p+1:end-p) = img(1:p,:);
+padded_img(p+1:end-p, 1:p) = img(:,1:p); 
+padded_img(end-p:end, p+1:end-p) = img(end-p:end, :);
+padded_img(p+1:end-p,end-p:end) = img(:,end-p:end);
+
+padded_img(1:p,1:p) = img(1:p,1:p);
+padded_img(1:p, end-p:end) = img(1:p, end-p:end);
+padded_img(end-p:end, 1:p) = img(end-p:end,1:p);
+padded_img(end-p:end, end-p:end) = img(end-p:end,end-p:end);
+
+paddedRows = rows+2*p;
+paddedCols = cols+2*p;
+
 % Create output image
 output_img = zeros(size(img));
 
 % Apply Laplacian filter to each pixel in the image
-for i = 1:rows
-    for j = 1:cols
+for i = p+1:paddedRows-p
+    for j = p+1:paddedCols-p
         % Extract local neighborhood around pixel
-        local_neighborhood = padded_img(i:i+2, j:j+2);
+        local_neighborhood = padded_img(i-1:i+1, j-1:j+1);
         local_neighborhood = double(local_neighborhood) ;
         
         % Apply Laplacian filter to local neighborhood
@@ -58,7 +61,7 @@ for i = 1:rows
         
         % Assign filtered pixel value to output image
         % Assign filtered pixel value to output image
-        output_img(i,j) = img(i,j) + filtered_pixel;
+        output_img(i-p,j-p) = img(i-p,j-p) + filtered_pixel;
     end
 end
 

@@ -11,7 +11,7 @@ title('Original Image')
 %% Zooming Factor
 %zooming: z > 1
 %shrinking : z < 1 
-z = 2;
+z = 0.5;
 
 %% Dimension of the image
 [width, height, p] = size(img);
@@ -25,4 +25,3 @@ for i = 1:new_width
 end
 figure(2)
 imshow(new_img)
-title(sprintf('Zooming factor %g', z))

@@ -15,7 +15,7 @@ close all;
 %Useful for applications where texture smoothing or reducing detail is needed.
 
 %% Read Original Image
-img =imread('Image/birds.jpg');
+img =imread('cameraman.tif');
 [rows,cols, n] = size(img); %Get the dimension of the image
 
 %% RGB to Gray Scale Conversion
@@ -24,51 +24,52 @@ if n == 3
 end
 
 %% Adding salt & pepper Noise
-noise_img = imnoise(img,'salt & pepper',0.01);
+img = imnoise(img,'salt & pepper',0.01);
 
 %Define Filter
 filter_size = 3;
 p = floor(filter_size/2);
 %% Padding
 % Initialize the padded image with zeros
-    padded_img = zeros(rows+p*2, cols+p*2);
-    
-    % Copy the original image to the center of the padded image
-    padded_img(p+1:end-p, p+1:end-p) = noise_img;
-       
-    for x = 1:p
-        padded_img(x, p+1:end-p) = noise_img(1, :); %Top rows
-        padded_img(p+1:end-p, x) = noise_img(:,1); % Left columns
-        padded_img(end-p+x, p+1:end-p) = noise_img(end, :); % Bottom rows
-        padded_img(p+1:end-p, end-p+x) = noise_img(:,end); % Right columns
-    end    
-    % Pad the corners
-    padded_img(1:p, 1:p) = noise_img(1,1);  % Top-left corner
-    padded_img(1:p, end-p+1:end) = noise_img(1,end);  % Top-right corner
-    padded_img(end-p+1:end, 1:p) = noise_img(end,1);  % Bottom-left corner
-    padded_img(end-p+1:end, end-p+1:end) = noise_img(end,end);  % Bottom-right corner
+padded_img = zeros(rows+p*2, cols+p*2);
+
+padded_img(p+1:end-p, p+1:end-p) = img(:, :);
+
+padded_img(1:p, p+1:end-p) = img(1:p,:);
+padded_img(p+1:end-p, 1:p) = img(:,1:p); 
+padded_img(end-p:end, p+1:end-p) = img(end-p:end, :);
+padded_img(p+1:end-p,end-p:end) = img(:,end-p:end);
+
+padded_img(1:p,1:p) = img(1:p,1:p);
+padded_img(1:p, end-p:end) = img(1:p, end-p:end);
+padded_img(end-p:end, 1:p) = img(end-p:end,1:p);
+padded_img(end-p:end, end-p:end) = img(end-p:end,end-p:end);
+
+paddedRows = rows+2*p;
+paddedCols = cols+2*p;
 
 %% Using Average Filter
-avg_img = noise_img;
-for i=1:rows
-    for j=1:cols
+avg_img = img;
+for i = p+1:paddedRows-p
+    for j = p+1:paddedCols-p
+        neighborhood = padded_img(i-p:i+p, j-p:j+p);
         intensity = 0;
-         for x = i:i+2*p
-            for y = j:j+2*p
-                intensity = intensity + double(padded_img(x, y));
+         for x = 1:filter_size
+            for y = 1:filter_size
+                intensity = intensity + neighborhood(x, y);
             end
         end
         avg = intensity/filter_size^2;
-        avg_img(i,j)=avg;  
+        avg_img(i-p,j-p)=avg;  
     end
 end
 %% Using Median Filter
-median_img = noise_img;
-for i=1:rows
-    for j=1:cols
-        temp = padded_img(i:i+2*p, j:j+2*p);
+median_img = zeros(rows, cols);
+for i = p+1:paddedRows-p
+    for j = p+1:paddedCols-p
+        temp = padded_img(i-p:i+p, j-p:j+p);
         neighborhood = temp(:);
-        for x = 1:(filter_size^2)-1
+         for x = 1:(filter_size^2)-1
             id = x;
             for y = x+1:(filter_size^2)
                 if neighborhood(id,1) < neighborhood(y,1)
@@ -77,22 +78,18 @@ for i=1:rows
             end
             temp = neighborhood(id,1);
             neighborhood(id,1) =  neighborhood(x,1);
-             neighborhood(y,1) = neighborhood(id,1);
+             neighborhood(x,1) = temp;
         end
-        median_img(i,j)=neighborhood(ceil((filter_size^2)/2),1);  
-    end
+         median_img(i-p,j-p)=neighborhood(ceil((filter_size^2)/2),1);  
+     end
 end
-
 
 figure(1)
 imshow(img)
-title('Original image')
-figure(2)
-imshow(noise_img)
 title('Noisy image')
-figure(3)
+figure(2)
 imshow(uint8(avg_img))
 title('After Applying Average Filter')
-figure(4)
+figure(3)
 imshow(uint8(median_img))
 title('After Applying Median Filter')
